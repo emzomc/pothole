@@ -54,7 +54,7 @@ function App(props) {
   //const [tasks, setTasks] = useState(props.tasks);
   const [tasks, setTasks] = usePersistedState('tasks',[]);
   const [filter, setFilter] = useState('All');
-  const [lastInsertedId, setlastInserted] = useState('');  
+  const [lastInsertedId, setLastInsertedId] = useState('');  
 
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map((task) => {
@@ -138,7 +138,7 @@ function App(props) {
   function addTask(name) {
     const id = "todo-" + nanoid();
     const newTask = { id: id, name: name, completed: false, location: {latitude:"##", longitude:"##", error:"##"} };
-    setLastInsteredId(id);
+    setLastInsertedId(id);
     setTasks([...tasks, newTask]);
   }
 
