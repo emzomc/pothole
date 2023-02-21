@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Form(props) {
+  const [addition, setAddition] = useState(false);
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    if (addition) {
+      console.log("useEffect detected addition");
+      props.geoFindMe();
+      setAddition(false);
+    }
+  });
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!name.trim()) {
+      return;
+    }
+    setAddition(true);
+    props.addTask(name);
+    setName("");
+  }
 
   function handleChange(e) {
     setName(e.target.value);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    props.addTask(name);
-    setName("");
-  }
   return (
     <form onSubmit={handleSubmit}>
       <h2 className="label-wrapper">

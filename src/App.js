@@ -15,6 +15,31 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
 
+  function geoFindMe() {
+    console.log("geoFindMe", lastInsertedId);
+    function success(position) {
+      const latitude  = position.coords.latitude;
+      const longitude = position.coords.longitude;
+  
+      //mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+      console.log(`Latitude: ${latitude}°, Longitude: ${longitude}°`);
+      locateTask(lastInsertedId, {latitude: latitude, longitude: longitude, error: "" });
+    }
+    function error() {
+      console.log('Unable to retrieve your location');
+    }
+  
+    if (!navigator.geolocation) {
+      console.log('Geolocation is not supported by your browser');
+    } else {
+      console.log('Locating...');
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
+  }
+  
+
+
+
   function usePersistedState(key, defaultValue) {
     const [state, setState] = React.useState(
       () => JSON.parse(localStorage.getItem(key)) || defaultValue
@@ -29,6 +54,7 @@ function App(props) {
   //const [tasks, setTasks] = useState(props.tasks);
   const [tasks, setTasks] = usePersistedState('tasks',[]);
   const [filter, setFilter] = useState('All');
+  const [lastInsertedId, setlastInserted] = useState('');  
 
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map((task) => {
@@ -41,11 +67,12 @@ function App(props) {
       return task;
     });
     setTasks(updatedTasks);
-    //localStorage.setItem('tasks', JSON.stringify(updatedTasks));
   }
 
   //EDIT TASK
   function editTask(id, newName) {
+    console.log("editTask before");
+    console.log(tasks);
     const editedTaskList = tasks.map((task) => {
     // if this task has the same ID as the edited task
       if (id === task.id) {
@@ -55,14 +82,31 @@ function App(props) {
       return task;
     });
     setTasks(editedTaskList);
-    //localStorage.setItem('tasks', JSON.stringify(editedTaskList));
   }
+
+
+  //LOCATE TASK
+  function locateTask(id, location) {
+    console.log("locate Task", id, " before");
+    console.log(location, tasks);
+    const locatedTaskList = tasks.map(task => {
+    // if this task has the same ID as the edited task
+      if (id === task.id) {
+        //
+        return {...task, location: location}
+      }
+      return task;
+    });
+    console.log(locatedTaskList);
+    setTasks(locatedTaskList);
+  }
+
+
 
   //DELETE TASK
   function deleteTask(id) {
     const remainingTasks = tasks.filter((task) => id !== task.id);
     setTasks(remainingTasks);
-    //localStorage.setItem('tasks', JSON.stringify(remainingTasks));
   }
 
   const taskList = tasks
@@ -73,6 +117,8 @@ function App(props) {
       name={task.name}
       completed={task.completed}
       key={task.id}
+      latitude={taskList.location.latitude}
+      longitude={taskList.location.longitude}
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
       editTask={editTask}
@@ -90,9 +136,10 @@ function App(props) {
   ));
 
   function addTask(name) {
-    const newTask = { id: `todo-${nanoid()}`, name, completed: false };
+    const id = "todo-" + nanoid();
+    const newTask = { id: id, name: name, completed: false, location: {latitude:"##", longitude:"##", error:"##"} };
+    setLastInsteredId(id);
     setTasks([...tasks, newTask]);
-    //localStorage.setItem('tasks', JSON.stringify([...tasks, newTask]));
   }
 
   const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task';
@@ -101,7 +148,7 @@ function App(props) {
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
-      <Form addTask={addTask} />
+      <Form addTask={addTask} geoFindMe={geoFindMe} />
       <div className="filters btn-group stack-exception">
         {filterList}
       </div>
