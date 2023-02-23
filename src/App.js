@@ -73,7 +73,7 @@ function App(props) {
   function editTask(id, newName) {
     console.log("editTask before");
     console.log(tasks);
-    const editedTaskList = tasks.map((task) => {
+    const editedTaskList = tasks.map(task => {
     // if this task has the same ID as the edited task
       if (id === task.id) {
         //
@@ -117,8 +117,8 @@ function App(props) {
       name={task.name}
       completed={task.completed}
       key={task.id}
-      latitude={taskList.location.latitude}
-      longitude={taskList.location.longitude}
+      latitude={task.location.latitude}
+      longitude={task.location.longitude}
       toggleTaskCompleted={toggleTaskCompleted}
       deleteTask={deleteTask}
       editTask={editTask}
@@ -148,11 +148,13 @@ function App(props) {
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
-      <Form addTask={addTask} geoFindMe={geoFindMe} />
+      <Form addTask={addTask} geoFindMe={geoFindMe}/>
       <div className="filters btn-group stack-exception">
         {filterList}
       </div>
-      <h2 id="list-heading">{headingText}</h2>
+      <h2 id="list-heading">
+        {headingText}
+        </h2>
       <ul
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"

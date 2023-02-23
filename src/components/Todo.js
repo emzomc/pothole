@@ -57,7 +57,7 @@ export default function Todo(props) {
           <label className="todo-label" htmlFor={props.id}>
             {props.name}
             &nbsp;| la {props.latitude}
-            &nbsp;| la {props.longitude}
+            &nbsp;| lo {props.longitude}
           </label>
         </div>
         <div className="btn-group">

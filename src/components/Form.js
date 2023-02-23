@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 function Form(props) {
   const [addition, setAddition] = useState(false);
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
 
   useEffect(() => {
     if (addition) {
