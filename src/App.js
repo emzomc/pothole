@@ -15,31 +15,6 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
 
-  function geoFindMe() {
-    console.log("geoFindMe", lastInsertedId);
-    function success(position) {
-      const latitude  = position.coords.latitude;
-      const longitude = position.coords.longitude;
-  
-      //mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-      console.log(`Latitude: ${latitude}°, Longitude: ${longitude}°`);
-      locateTask(lastInsertedId, {latitude: latitude, longitude: longitude, error: "" });
-    }
-    function error() {
-      console.log('Unable to retrieve your location');
-    }
-  
-    if (!navigator.geolocation) {
-      console.log('Geolocation is not supported by your browser');
-    } else {
-      console.log('Locating...');
-      navigator.geolocation.getCurrentPosition(success, error);
-    }
-  }
-  
-
-
-
   function usePersistedState(key, defaultValue) {
     const [state, setState] = React.useState(
       () => JSON.parse(localStorage.getItem(key)) || defaultValue
@@ -108,6 +83,35 @@ function App(props) {
     const remainingTasks = tasks.filter((task) => id !== task.id);
     setTasks(remainingTasks);
   }
+
+
+
+  function geoFindMe() {
+    console.log("geoFindMe", lastInsertedId);
+    function success(position) {
+      const latitude  = position.coords.latitude;
+      const longitude = position.coords.longitude;
+  
+      //mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+      console.log('Latitude: ${latitude}°, Longitude: ${longitude}°');
+      locateTask(lastInsertedId, {latitude: latitude, longitude: longitude, error: "" });
+    }
+    function error() {
+      console.log('Unable to retrieve your location');
+    }
+  
+    if (!navigator.geolocation) {
+      console.log('Geolocation is not supported by your browser');
+    } else {
+      console.log('Locating...');
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
+  }
+
+
+
+
+
 
   const taskList = tasks
   .filter(FILTER_MAP[filter])
