@@ -10,7 +10,6 @@ const WebcamCapture = (props) => {
   const [imgId, setImgId] = React.useState(null);
   const [photoSave, setPhotoSave] = React.useState(null);
 
-
   useEffect(() => {
     if (photoSave) {
       console.log("useEffect detected photoSave");
@@ -18,7 +17,6 @@ const WebcamCapture = (props) => {
       setPhotoSave(false);
     }
   });
-
   //console.log("WebCamCapture", props.id);
   const capture = React.useCallback((id) => {
     const imageSrc = webcamRef.current.getScreenshot();
