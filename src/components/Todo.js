@@ -169,9 +169,9 @@ export default function Todo(props) {
           onChange={() => props.toggleTaskCompleted(props.id)}
         />
         <label className="todo-label" htmlFor={props.id}>{props.name}
-          &nbsp;| &nbsp;
-          <a href={props.location.mapURL}>(map)</a>
-          &nbsp;| &nbsp;
+          &nbsp; | &nbsp;
+          <a target="_blank" rel="noopener noreferrer" href={props.location.mapURL}>(map)</a>
+          &nbsp; | &nbsp;
           <a href={props.location.smsURL}>(sms)</a>
         </label>
       </div>
@@ -181,11 +181,11 @@ export default function Todo(props) {
         </button>
 
         <Popup trigger={<button type="button" className="btn"> Take Photo </button>} modal>
-          <div><WebcamCapture id={props.id} photoedTask={props.photoedTask} /></div>
+          <div><WebcamCapture id={props.id} photoedTask={props.photoedTask}/></div>
         </Popup>
 
         <Popup trigger={<button type="button" className="btn"> View Photo </button>} modal>
-          <div><ViewPhoto id={props.id} alt={props.name} /></div>
+          <div><ViewPhoto id={props.id} alt={props.name}/></div>
         </Popup>
 
         <button
