@@ -6,7 +6,7 @@ function Form(props) {
   const [name, setName] = useState('');
 
   //RATING
-  const [rating, setRating] = useState("Moderate");
+  const [rating, setRating] = useState('');
 
 
   //RATING CHANGE RADIO BUTTON

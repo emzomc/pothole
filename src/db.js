@@ -8,7 +8,7 @@ db.version(1).stores({
 });
 
 async function addPhoto(id, imgSrc) {
-  //console.log("addPhoto", imgSrc.length, id);
+  console.log("addPhoto", imgSrc.length, id);
   try {
     // Add the new photo with id used as key for todo array in localStoarge
     // to avoid having a second pk for one todo item 
@@ -16,7 +16,7 @@ async function addPhoto(id, imgSrc) {
       id: id,
       imgSrc: imgSrc
     });
-    //console.log(`Photo ${imgSrc.length} bytes successfully added. Got id ${i}`);
+    console.log(`Photo ${imgSrc.length} bytes successfully added. Got id ${i}`);
   } catch (error) {
     console.log(`Failed to add photo: ${error}`);
   }

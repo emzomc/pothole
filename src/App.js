@@ -4,6 +4,7 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
+import Header from "./components/Header";
 
 //FILTER BUTTONS
 const FILTER_MAP = {
@@ -172,7 +173,10 @@ function App(props) {
 
   return (
     <div className="todoapp stack-large">
+      <div class="App-header">
       <h1>Pothole Reporter</h1>
+      <Header />
+      </div>
       <Form addPothole={addPothole} geoFindMe={geoFindMe} />
       <div className="filters btn-group stack-exception">
         {filterList}

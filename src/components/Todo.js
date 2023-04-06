@@ -14,7 +14,7 @@ const WebcamCapture = (props) => {
 
   useEffect(() => {
     if (photoSave) {
-      console.log("useEffect detected photoSave");
+      //console.log("useEffect detected photoSave");
       props.photoedPothole(imgId);
       setPhotoSave(false);
     }
@@ -97,31 +97,19 @@ const WebcamCapture = (props) => {
 };
 
 
-
+/*
 //VIEW PHOTO
 const ViewPhoto = (props) => {
   const photoSrc = GetPhotoSrc(props.id);
-
-  const closePhoto = (id, photoSrc) => {
-    window.location.href = '/'
-  }
-  
   return (
     <>
       <div>
         <img src={photoSrc} alt={props.name} />
-        <button
-          type="button"
-          className="btn todo-cancel"
-          onClick={() => closePhoto(props.id, photoSrc)}
-        >
-          Close
-        </button>
       </div>
     </>
   );
 };
-
+*/
 
 
 
@@ -131,7 +119,6 @@ const ViewPhoto = (props) => {
 
 //////////////////////////THIS IS WHAT YOU ARE WORKING ON /////////////////////////
 //VIEW PHOTO
-/*
 const ViewPhoto = (props) => {
   const photoSrc = GetPhotoSrc(props.id);
 
@@ -156,7 +143,6 @@ const ViewPhoto = (props) => {
     </>
   )
 };
-*/
 
 // console.log('NO IMAGE TO DISPLAY');
 //     alert("NO IMAGE TO DISPLAY");
@@ -214,6 +200,8 @@ export default function Todo(props) {
     </form>
   );
 
+  const rating = useState("Moderate");
+
   //POTHOLE DATA + EDIT, PHOTO AND DELETE BUTTON
   const viewTemplate = (
     <div className="stack-small">
@@ -232,7 +220,7 @@ export default function Todo(props) {
         </label>
         {/* //RATING */}
         <h3>
-          Severity Rating: <strong>{props.rating}</strong>
+          Severity Rating: <strong>{rating}</strong>
         </h3>
       </div>
       <div className="btn-group">
