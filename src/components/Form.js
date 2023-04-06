@@ -45,8 +45,8 @@ function Form(props) {
     <form onSubmit={handleSubmit}>
       <h2 className="label-wrapper">
         <label htmlFor="new-todo-input" className="label__lg">
-          Enable your location.
-          Enter the street name.
+          Enable your location.&nbsp; | &nbsp;
+          Enter the street name.&nbsp; | &nbsp;
           Take a photo of the pothole.
         </label>
       </h2>
@@ -77,7 +77,7 @@ function Form(props) {
         checked={rating === 'Minor'}
         onChange={ratingChange} />
       <label>Minor</label>
-
+      &nbsp; | &nbsp;
       <input
         type="radio"
         value="Moderate"
@@ -86,7 +86,7 @@ function Form(props) {
         checked={rating=== 'Moderate'}
         onChange={ratingChange} />
       <label>Moderate</label>
-
+      &nbsp; | &nbsp;
       <input
         type="radio"
         value="Major"

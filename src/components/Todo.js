@@ -23,13 +23,18 @@ const WebcamCapture = (props) => {
   const capture = React.useCallback((id) => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
-    console.log("capture", imageSrc.length, id);
-  }, [webcamRef, setImgSrc]);
+    //console.log("capture", imageSrc.length, id);
+  },
+    [webcamRef, setImgSrc]);
   const savePhoto = (id, imgSrc) => {
-    console.log("savePhoto", imgSrc.length, id);
+    //console.log("savePhoto", imgSrc.length, id);
+    console.log("save photo detected");
     addPhoto(id, imgSrc);
+    console.log("photo added");
     setImgId(id);
+    console.log("photoid has been set");
     setPhotoSave(true);
+    console.log("photo saved");
   }
   const cancelPhoto = (id, imgSrc) => {
     //console.log("cancelPhoto", imgSrc.length, id);
@@ -42,6 +47,8 @@ const WebcamCapture = (props) => {
       {!imgSrc && (<Webcam
         audio={false}
         ref={webcamRef}
+        height={350}
+        width={350}
         screenshotFormat="image/jpeg"
       />)}
       {imgSrc && (
@@ -90,19 +97,31 @@ const WebcamCapture = (props) => {
 };
 
 
-/*
+
 //VIEW PHOTO
 const ViewPhoto = (props) => {
   const photoSrc = GetPhotoSrc(props.id);
+
+  const closePhoto = (id, photoSrc) => {
+    window.location.href = '/'
+  }
+  
   return (
     <>
       <div>
         <img src={photoSrc} alt={props.name} />
+        <button
+          type="button"
+          className="btn todo-cancel"
+          onClick={() => closePhoto(props.id, photoSrc)}
+        >
+          Close
+        </button>
       </div>
     </>
   );
 };
-*/
+
 
 
 
@@ -112,6 +131,7 @@ const ViewPhoto = (props) => {
 
 //////////////////////////THIS IS WHAT YOU ARE WORKING ON /////////////////////////
 //VIEW PHOTO
+/*
 const ViewPhoto = (props) => {
   const photoSrc = GetPhotoSrc(props.id);
 
@@ -136,6 +156,7 @@ const ViewPhoto = (props) => {
     </>
   )
 };
+*/
 
 // console.log('NO IMAGE TO DISPLAY');
 //     alert("NO IMAGE TO DISPLAY");
@@ -211,7 +232,7 @@ export default function Todo(props) {
         </label>
         {/* //RATING */}
         <h3>
-        Severity Rating: <strong>{props.rating}</strong>
+          Severity Rating: <strong>{props.rating}</strong>
         </h3>
       </div>
       <div className="btn-group">

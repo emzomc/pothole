@@ -117,7 +117,7 @@ function App(props) {
 
 
   function photoedPothole(id) {
-    console.log("photoedPothole", id);
+    //console.log("photoedPothole", id);
     const photoedPotholeList = potholes.map(pothole => {
       // if this pothole has the same ID as the edited pothole
       if (id === pothole.id) {
@@ -126,7 +126,7 @@ function App(props) {
       }
       return pothole;
     });
-    console.log(photoedPotholeList);
+    //console.log(photoedPotholeList);
     setPotholes(photoedPotholeList);
   }
 
