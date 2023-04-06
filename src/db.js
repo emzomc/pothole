@@ -13,7 +13,7 @@ async function addPhoto(id, imgSrc) {
     // Add the new photo with id used as key for todo array in localStoarge
     // to avoid having a second pk for one todo item 
     const i = await db.photos.add({
-      id: id, 
+      id: id,
       imgSrc: imgSrc
     });
     console.log(`Photo ${imgSrc.length} bytes successfully added. Got id ${i}`);
@@ -28,12 +28,14 @@ async function addPhoto(id, imgSrc) {
 }
 
 function GetPhotoSrc(id) {
-  console.log("getPhotoSrc",id);
-  const img =  useLiveQuery(
+  console.log("getPhotoSrc", id);
+  const img = useLiveQuery(
     () => db.photos.where('id').equals(id).toArray()
   );
   console.table(img);
-  if (Array.isArray(img)) return img[0].imgSrc;
-};
+  if (Array.isArray(img)) {
+    return img[0].imgSrc;
+  }
+}
 
-export {addPhoto, GetPhotoSrc}
+export { addPhoto, GetPhotoSrc }

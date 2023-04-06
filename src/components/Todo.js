@@ -4,6 +4,8 @@ import 'reactjs-popup/dist/index.css';
 import Webcam from "react-webcam";
 import { addPhoto, GetPhotoSrc } from "../db.js";
 
+
+//TAKE PHOTO
 const WebcamCapture = (props) => {
   const webcamRef = React.useRef(null);
   const [imgSrc, setImgSrc] = React.useState(null);
@@ -13,7 +15,7 @@ const WebcamCapture = (props) => {
   useEffect(() => {
     if (photoSave) {
       console.log("useEffect detected photoSave");
-      props.photoedTask(imgId);
+      props.photoedPothole(imgId);
       setPhotoSave(false);
     }
   });
@@ -30,8 +32,11 @@ const WebcamCapture = (props) => {
     setPhotoSave(true);
   }
   const cancelPhoto = (id, imgSrc) => {
-    console.log("cancelPhoto", imgSrc.length, id);
+    //console.log("cancelPhoto", imgSrc.length, id);
+    window.location.href = '/'
   }
+
+  //WEBCAM TO TAKE PHOTO
   return (
     <>
       {!imgSrc && (<Webcam
@@ -44,7 +49,12 @@ const WebcamCapture = (props) => {
           src={imgSrc}
         />
       )}
+
+
+      {/* PHOTO BUTTONS */}
       <div className="btn-group">
+
+        {/* CAPTURE PHOTO */}
         {!imgSrc && (
           <button
             type="button"
@@ -54,6 +64,8 @@ const WebcamCapture = (props) => {
             Capture Photo
           </button>
         )}
+
+        {/* SAVE PHOTO */}
         {imgSrc && (
           <button
             type="button"
@@ -63,12 +75,14 @@ const WebcamCapture = (props) => {
             Save Photo
           </button>
         )}
+
+        {/* CANCEL PHOTO */}
         <button
           type="button"
           className="btn todo-cancel"
           onClick={() => cancelPhoto(props.id, imgSrc)}
         >
-          Cancel
+          Close
         </button>
       </div>
     </>
@@ -76,6 +90,8 @@ const WebcamCapture = (props) => {
 };
 
 
+/*
+//VIEW PHOTO
 const ViewPhoto = (props) => {
   const photoSrc = GetPhotoSrc(props.id);
   return (
@@ -86,14 +102,7 @@ const ViewPhoto = (props) => {
     </>
   );
 };
-
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
+*/
 
 
 
@@ -101,7 +110,38 @@ function usePrevious(value) {
 
 
 
+//////////////////////////THIS IS WHAT YOU ARE WORKING ON /////////////////////////
+//VIEW PHOTO
+const ViewPhoto = (props) => {
+  const photoSrc = GetPhotoSrc(props.id);
 
+  const closePhoto = (id, imgSrc) => {
+    //console.log("cancelPhoto", imgSrc.length, id);
+    window.location.href = '/'
+  }
+
+  return (
+    <>
+    {imgSrc && (
+      <div>
+        <img src={photoSrc} alt={props.name} />
+
+        <button
+          type="button"
+          className="btn todo-cancel"
+          onClick={() => closePhoto(props.id, photoSrc)}
+        >
+          Close
+        </button>
+      </div>
+    )}
+    </>
+  )
+};
+
+// console.log('NO IMAGE TO DISPLAY');
+//     alert("NO IMAGE TO DISPLAY");
+//     //window.location.href = '/';
 
 
 
@@ -110,11 +150,6 @@ export default function Todo(props) {
 
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState('');
-
-  const editFieldRef = useRef(null);
-  const editButtonRef = useRef(null);
-
-  const wasEditing = usePrevious(isEditing);
 
   function handleChange(e) {
     setNewName(e.target.value);
@@ -125,11 +160,12 @@ export default function Todo(props) {
     if (!newName.trim()) {
       return;
     }
-    props.editTask(props.id, newName);
+    props.editPothole(props.id, newName);
     setNewName("");
     setEditing(false);
   }
 
+  //EDIT POTHOLE NAME
   const editingTemplate = (
     <form className="stack-small" onSubmit={handleSubmit}>
       <div className="form-group">
@@ -140,7 +176,6 @@ export default function Todo(props) {
           id={props.id}
           className="todo-text"
           type="text"
-          value={newName || props.name}
           onChange={handleChange}
         />
       </div>
@@ -159,6 +194,8 @@ export default function Todo(props) {
       </div>
     </form>
   );
+
+  //POTHOLE DATA + EDIT, PHOTO AND DELETE BUTTON
   const viewTemplate = (
     <div className="stack-small">
       <div className="c-cb">
@@ -166,14 +203,18 @@ export default function Todo(props) {
           id={props.id}
           type="checkbox"
           defaultChecked={props.completed}
-          onChange={() => props.toggleTaskCompleted(props.id)}
+          onChange={() => props.togglePotholeCompleted(props.id)}
         />
         <label className="todo-label" htmlFor={props.id}>{props.name}
           &nbsp; | &nbsp;
           <a target="_blank" rel="noopener noreferrer" href={props.location.mapURL}>(map)</a>
           &nbsp; | &nbsp;
-          <a href={props.location.smsURL}>(sms)</a>
+          {/* <a href={props.location.smsURL}>(sms)</a> */}
         </label>
+        {/* //RATING */}
+        <h3>
+        Severity Rating: <strong>{props.rating}</strong>
+        </h3>
       </div>
       <div className="btn-group">
         <button type="button" className="btn" onClick={() => setEditing(true)}>
@@ -181,33 +222,22 @@ export default function Todo(props) {
         </button>
 
         <Popup trigger={<button type="button" className="btn"> Take Photo </button>} modal>
-          <div><WebcamCapture id={props.id} photoedTask={props.photoedTask}/></div>
+          <div><WebcamCapture id={props.id} photoedPothole={props.photoedPothole} /></div>
         </Popup>
 
         <Popup trigger={<button type="button" className="btn"> View Photo </button>} modal>
-          <div><ViewPhoto id={props.id} alt={props.name}/></div>
+          <div><ViewPhoto id={props.id} alt={props.name} /></div>
         </Popup>
 
         <button
           type="button"
           className="btn btn__danger"
-          onClick={() => props.deleteTask(props.id)}>
+          onClick={() => props.deletePothole(props.id)}>
           Delete <span className="visually-hidden">{props.name}</span>
         </button>
       </div>
     </div>
   );
-
-
-  useEffect(() => {
-    if (!wasEditing && isEditing) {
-      editFieldRef.current.focus();
-    }
-    if (wasEditing && !isEditing) {
-      editButtonRef.current.focus();
-    }
-  }, [wasEditing, isEditing]);
-
 
   return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
 

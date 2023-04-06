@@ -5,24 +5,18 @@ import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
 
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
-
+//FILTER BUTTONS
 const FILTER_MAP = {
   All: () => true,
-  Active: (task) => !task.completed,
-  Completed: (task) => task.completed
+  Active: (pothole) => !pothole.completed,
+  Repaired: (pothole) => pothole.completed
 };
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
 
+  //GEO LOCATION
   function geoFindMe() {
     console.log("geoFindMe", lastInsertedId);
     function success(position) {
@@ -30,13 +24,13 @@ function App(props) {
       const longitude = position.coords.longitude;
 
       console.log(`Latitude: ${latitude}°, Longitude: ${longitude}°`);
-      locateTask(lastInsertedId,
+      locatePothole(lastInsertedId,
         {
           latitude: latitude,
           longitude: longitude,
           error: "",
           mapURL: `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`,
-          smsURL: `sms://00447700900xxxx?body=https://maps.google.com/?q=${latitude},${longitude}`
+          //smsURL: `sms://00447700900xxxx?body=https://maps.google.com/?q=${latitude},${longitude}`
         });
     }
     function error() {
@@ -64,96 +58,96 @@ function App(props) {
   }
 
 
-  //const [tasks, setTasks] = useState(props.tasks);
-  const [tasks, setTasks] = usePersistedState('tasks', []);
+  const [potholes, setPotholes] = usePersistedState('potholes', []);
   const [filter, setFilter] = useState('All');
   const [lastInsertedId, setLastInsertedId] = useState('');
 
-  function toggleTaskCompleted(id) {
-    const updatedTasks = tasks.map((task) => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
+  function togglePotholeCompleted(id) {
+    const updatedPotholes = potholes.map((pothole) => {
+      // if this pothole has the same ID as the edited pothole
+      if (id === pothole.id) {
         // use object spread to make a new object
         // whose `completed` prop has been inverted
-        return { ...task, completed: !task.completed }
+        return { ...pothole, completed: !pothole.completed }
       }
-      return task;
+      return pothole;
     });
-    setTasks(updatedTasks);
+    setPotholes(updatedPotholes);
   }
 
 
-  //DELETE TASK
-  function deleteTask(id) {
-    const remainingTasks = tasks.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
+  //DELETE POTHOLE
+  function deletePothole(id) {
+    const remainingPotholes = potholes.filter((pothole) => id !== pothole.id);
+    setPotholes(remainingPotholes);
   }
 
-  //EDIT TASK
-  function editTask(id, newName) {
-    console.log("editTask before");
-    console.log(tasks);
-    const editedTaskList = tasks.map(task => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
+  //EDIT POTHOLE
+  function editPothole(id, newName) {
+    //console.log("editPothole before");
+    //console.log(potholes);
+
+    const editedPotholeList = potholes.map(pothole => {
+      // if this pothole has the same ID as the edited pothole
+      if (id === pothole.id) {
         //
-        return { ...task, name: newName }
+        return { ...pothole, name: newName }
       }
-      return task;
+      return pothole;
     });
-    setTasks(editedTaskList);
+    setPotholes(editedPotholeList);
   }
 
 
-  //LOCATE TASK
-  function locateTask(id, location) {
-    console.log("locate Task", id, " before");
-    console.log(location, tasks);
-    const locatedTaskList = tasks.map(task => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
+  //LOCATE POTHOLE
+  function locatePothole(id, location) {
+    console.log("locate Pothole", id, " before");
+    console.log(location, potholes);
+    const locatedPotholeList = potholes.map(pothole => {
+      // if this pothole has the same ID as the edited pothole
+      if (id === pothole.id) {
         //
-        return { ...task, location: location }
+        return { ...pothole, location: location }
       }
-      return task;
+      return pothole;
     });
-    console.log(locatedTaskList);
-    setTasks(locatedTaskList);
+    console.log(locatedPotholeList);
+    setPotholes(locatedPotholeList);
   }
 
 
-  function photoedTask(id) {
-    console.log("photoedTask", id);
-    const photoedTaskList = tasks.map(task => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
+  function photoedPothole(id) {
+    console.log("photoedPothole", id);
+    const photoedPotholeList = potholes.map(pothole => {
+      // if this pothole has the same ID as the edited pothole
+      if (id === pothole.id) {
         //
-        return { ...task, photo: true }
+        return { ...pothole, photo: true }
       }
-      return task;
+      return pothole;
     });
-    console.log(photoedTaskList);
-    setTasks(photoedTaskList);
+    console.log(photoedPotholeList);
+    setPotholes(photoedPotholeList);
   }
 
 
-  const taskList = tasks
+  const potholeList = potholes
     .filter(FILTER_MAP[filter])
-    .map((task) => (
+    .map((pothole) => (
       <Todo
-        id={task.id}
-        name={task.name}
-        completed={task.completed}
-        key={task.id}
-        location={task.location}
-        toggleTaskCompleted={toggleTaskCompleted}
-        photoedTask={photoedTask}
-        deleteTask={deleteTask}
-        editTask={editTask}
+        id={pothole.id}
+        name={pothole.name}
+        completed={pothole.completed}
+        key={pothole.id}
+        location={pothole.location}
+        togglePotholeCompleted={togglePotholeCompleted}
+        photoedPothole={photoedPothole}
+        deletePothole={deletePothole}
+        editPothole={editPothole}
       />
     ));
 
-
+//FILTER BUTTONS
   const filterList = FILTER_NAMES.map((name) => (
     <FilterButton
       key={name}
@@ -163,31 +157,23 @@ function App(props) {
     />
   ));
 
-  function addTask(name) {
+  //ADD POTHOLE
+  function addPothole(name) {
     const id = "todo-" + nanoid();
-    const newTask = { id: id, name: name, completed: false, location: { latitude: "##", longitude: "##", error: "##" } };
+    const newPothole = { id: id, name: name, completed: false, location: { latitude: "##", longitude: "##", error: "##" } };
     setLastInsertedId(id);
-    setTasks([...tasks, newTask]);
+    setPotholes([...potholes, newPothole]);
   }
 
-  const tasksNoun = taskList.length !== 1 ? 'tasks' : 'task';
-  const headingText = `${taskList.length} ${tasksNoun} remaining`;
-
-  const listHeadingRef = useRef(null);
-  const prevTaskLength = usePrevious(tasks.length);
-
-
-  useEffect(() => {
-    if (tasks.length - prevTaskLength === -1) {
-      listHeadingRef.current.focus();
-    }
-  }, [tasks.length, prevTaskLength]);
+  //POTHOLES REMAINING HEADER
+  const potholesNoun = potholeList.length !== 1 ? 'potholes' : 'pothole';
+  const headingText = `${potholeList.length} ${potholesNoun} remaining`;
 
 
   return (
     <div className="todoapp stack-large">
-      <h1>TodoMatic</h1>
-      <Form addTask={addTask} geoFindMe={geoFindMe} />
+      <h1>Pothole Reporter</h1>
+      <Form addPothole={addPothole} geoFindMe={geoFindMe} />
       <div className="filters btn-group stack-exception">
         {filterList}
       </div>
@@ -198,7 +184,7 @@ function App(props) {
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading"
       >
-        {taskList}
+        {potholeList}
       </ul>
     </div>
   );
