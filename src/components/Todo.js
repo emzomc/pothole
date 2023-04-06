@@ -122,7 +122,6 @@ const ViewPhoto = (props) => {
 
   return (
     <>
-    {photoSrc && (
       <div>
         <img src={photoSrc} alt={props.name} />
 
@@ -134,7 +133,6 @@ const ViewPhoto = (props) => {
           Close
         </button>
       </div>
-    )}
     </>
   )
 };
