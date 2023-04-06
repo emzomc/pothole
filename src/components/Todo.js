@@ -122,7 +122,7 @@ const ViewPhoto = (props) => {
 
   return (
     <>
-    {imgSrc && (
+    {photoSrc && (
       <div>
         <img src={photoSrc} alt={props.name} />
 
