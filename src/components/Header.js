@@ -17,7 +17,7 @@ function Header() {
 
   return (
     <div className="road-container">
-      <img width="500px" height="150px" src={roadImage} alt="road" />
+      <img width="50%" height="50%" src={roadImage} alt="road" />
     </div>
   );
 }

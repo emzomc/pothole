@@ -96,28 +96,6 @@ const WebcamCapture = (props) => {
   );
 };
 
-
-/*
-//VIEW PHOTO
-const ViewPhoto = (props) => {
-  const photoSrc = GetPhotoSrc(props.id);
-  return (
-    <>
-      <div>
-        <img src={photoSrc} alt={props.name} />
-      </div>
-    </>
-  );
-};
-*/
-
-
-
-
-
-
-
-///////////////////////////////////////////////////
 //VIEW PHOTO
 const ViewPhoto = (props) => {
   const photoSrc = GetPhotoSrc(props.id);
@@ -143,12 +121,6 @@ const ViewPhoto = (props) => {
     </>
   )
 };
-
-// console.log('NO IMAGE TO DISPLAY');
-//     alert("NO IMAGE TO DISPLAY");
-//     //window.location.href = '/';
-
-
 
 
 export default function Todo(props) {
