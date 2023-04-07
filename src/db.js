@@ -36,15 +36,15 @@ function GetPhotoSrc(id) {
   // if (Array.isArray(img)) {
   //   return img[0].imgSrc;
   // }
-  var xyz = "";
+  var photoUpload = "";
   try {
-    xyz = img[0].imgSrc;
+    photoUpload = img[0].imgSrc;
   } catch (error) {
     console.error("Something bad happened");
     console.error(error);
-    xyz = "http://tv-pi.duckdns.org/wst/md.jpg";
+    photoUpload = "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg";
   }
-  return xyz;
+  return photoUpload;
 }
 
 export { addPhoto, GetPhotoSrc }
