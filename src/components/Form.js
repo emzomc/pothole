@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 function Form(props) {
-  
+
   const [addition, setAddition] = useState(false);
   const [name, setName] = useState('');
 
   //RATING
-  const [rating, setRating] = useState('');
+  const [rating, setRating] = useState("Moderate");
 
 
   //RATING CHANGE RADIO BUTTON
   function ratingChange(e) {
-    setRating(e.target.value);
-    console.log(e.target.value);
+    setRating(e.currentTarget.value);
+    console.log(e.currentTarget.value);
   }
 
 
@@ -60,49 +60,37 @@ function Form(props) {
         onChange={handleChange}
       />
 
-
-
-
-
-
-
       {/* SEVERITY RATING */}
       <h3>How Severe is the Pothole?</h3>
 
       <input
         type="radio"
-        value="Minor"
         name="rating"
+        value="Minor"
         id="minor"
-        checked={rating === 'Minor'}
+        checked={rating === "Minor"}
         onChange={ratingChange} />
       <label>Minor</label>
+
       &nbsp; | &nbsp;
       <input
         type="radio"
-        value="Moderate"
         name="rating"
+        value="Moderate"
         id="moderate"
-        checked={rating=== 'Moderate'}
+        checked={rating === "Moderate"}
         onChange={ratingChange} />
       <label>Moderate</label>
+
       &nbsp; | &nbsp;
       <input
         type="radio"
-        value="Major"
         name="rating"
+        value="Major"
         id="major"
-        checked={rating === 'Major'}
+        checked={rating === "Major"}
         onChange={ratingChange} />
       <label>Major</label>
-
-
-
-
-
-
-
-
 
       <button type="submit" className="btn btn__primary btn__lg">
         Add

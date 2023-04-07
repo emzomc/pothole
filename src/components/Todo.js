@@ -117,7 +117,7 @@ const ViewPhoto = (props) => {
 
 
 
-//////////////////////////THIS IS WHAT YOU ARE WORKING ON /////////////////////////
+///////////////////////////////////////////////////
 //VIEW PHOTO
 const ViewPhoto = (props) => {
   const photoSrc = GetPhotoSrc(props.id);
@@ -200,8 +200,6 @@ export default function Todo(props) {
     </form>
   );
 
-  const rating = useState("Moderate");
-
   //POTHOLE DATA + EDIT, PHOTO AND DELETE BUTTON
   const viewTemplate = (
     <div className="stack-small">
@@ -218,10 +216,12 @@ export default function Todo(props) {
           &nbsp; | &nbsp;
           {/* <a href={props.location.smsURL}>(sms)</a> */}
         </label>
+
         {/* //RATING */}
         <h3>
-          Severity Rating: <strong>{rating}</strong>
+          Severity Rating: <h2>{props.rating}</h2>
         </h3>
+
       </div>
       <div className="btn-group">
         <button type="button" className="btn" onClick={() => setEditing(true)}>

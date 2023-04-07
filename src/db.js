@@ -33,9 +33,18 @@ function GetPhotoSrc(id) {
     () => db.photos.where('id').equals(id).toArray()
   );
   //console.table(img);
-  if (Array.isArray(img)) {
-    return img[0].imgSrc;
+  // if (Array.isArray(img)) {
+  //   return img[0].imgSrc;
+  // }
+  var xyz = "";
+  try {
+    xyz = img[0].imgSrc;
+  } catch (error) {
+    console.error("Something bad happened");
+    console.error(error);
+    xyz = "http://tv-pi.duckdns.org/wst/md.jpg";
   }
+  return xyz;
 }
 
 export { addPhoto, GetPhotoSrc }
