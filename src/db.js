@@ -4,14 +4,12 @@ import { useLiveQuery } from "dexie-react-hooks";
 
 export const db = new Dexie('todo-photos');
 db.version(1).stores({
-  photos: 'id' // Primary key, don't index photos
+  photos: 'id'
 });
 
 async function addPhoto(id, imgSrc) {
   console.log("addPhoto", imgSrc.length, id);
   try {
-    // Add the new photo with id used as key for todo array in localStoarge
-    // to avoid having a second pk for one todo item 
     const i = await db.photos.add({
       id: id,
       imgSrc: imgSrc
@@ -32,10 +30,7 @@ function GetPhotoSrc(id) {
   const img = useLiveQuery(
     () => db.photos.where('id').equals(id).toArray()
   );
-  //console.table(img);
-  // if (Array.isArray(img)) {
-  //   return img[0].imgSrc;
-  // }
+
   var photoUpload = "";
   try {
     photoUpload = img[0].imgSrc;
@@ -47,4 +42,14 @@ function GetPhotoSrc(id) {
   return photoUpload;
 }
 
-export { addPhoto, GetPhotoSrc }
+//DELETE ORPHAN IMAGES
+async function deleteImage(id) {
+  try {
+    await db.photos.where('id').equals(id).delete();
+  } catch (error) {
+    console.log('Failed to delete photo');
+  }
+}
+
+
+export { addPhoto, GetPhotoSrc, deleteImage }

@@ -14,30 +14,27 @@ const WebcamCapture = (props) => {
 
   useEffect(() => {
     if (photoSave) {
-      //console.log("useEffect detected photoSave");
+      console.log("useEffect detected photoSave");
       props.photoedPothole(imgId);
       setPhotoSave(false);
     }
   });
-  //console.log("WebCamCapture", props.id);
+  
   const capture = React.useCallback((id) => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImgSrc(imageSrc);
-    //console.log("capture", imageSrc.length, id);
   },
     [webcamRef, setImgSrc]);
   const savePhoto = (id, imgSrc) => {
-    //console.log("savePhoto", imgSrc.length, id);
     console.log("save photo detected");
     addPhoto(id, imgSrc);
     console.log("photo added");
     setImgId(id);
-    console.log("photoid has been set");
+    console.log("photo id has been set");
     setPhotoSave(true);
     console.log("photo saved");
   }
   const cancelPhoto = (id, imgSrc) => {
-    //console.log("cancelPhoto", imgSrc.length, id);
     window.location.href = '/'
   }
 
@@ -186,15 +183,9 @@ export default function Todo(props) {
           &nbsp; | &nbsp;
           <a target="_blank" rel="noopener noreferrer" href={props.location.mapURL}>(map)</a>
           &nbsp; | &nbsp;
-          {/* <a href={props.location.smsURL}>(sms)</a> */}
         </label>
-
-        {/* //RATING */}
-        <h3>
-          Severity Rating: <h2>{props.rating}</h2>
-        </h3>
-
       </div>
+      
       <div className="btn-group">
         <button type="button" className="btn" onClick={() => setEditing(true)}>
           Edit <span className="visually-hidden">{props.name}</span>

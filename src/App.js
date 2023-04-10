@@ -5,6 +5,7 @@ import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
 import Header from "./components/Header";
+import { deleteImage } from "./db";
 
 //FILTER BUTTONS
 const FILTER_MAP = {
@@ -30,8 +31,7 @@ function App(props) {
           latitude: latitude,
           longitude: longitude,
           error: "",
-          mapURL: `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`,
-          //smsURL: `sms://00447700900xxxx?body=https://maps.google.com/?q=${latitude},${longitude}`
+          mapURL: `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`
         });
     }
     function error() {
@@ -47,7 +47,7 @@ function App(props) {
 
 
 
-
+//LOCAL STORAGE
   function usePersistedState(key, defaultValue) {
     const [state, setState] = React.useState(
       () => JSON.parse(localStorage.getItem(key)) || defaultValue
@@ -63,6 +63,7 @@ function App(props) {
   const [filter, setFilter] = useState('All');
   const [lastInsertedId, setLastInsertedId] = useState('');
 
+  //COMPLETED INPUT
   function togglePotholeCompleted(id) {
     const updatedPotholes = potholes.map((pothole) => {
       // if this pothole has the same ID as the edited pothole
@@ -81,13 +82,11 @@ function App(props) {
   function deletePothole(id) {
     const remainingPotholes = potholes.filter((pothole) => id !== pothole.id);
     setPotholes(remainingPotholes);
+    deleteImage(id);
   }
 
   //EDIT POTHOLE
   function editPothole(id, newName) {
-    //console.log("editPothole before");
-    //console.log(potholes);
-
     const editedPotholeList = potholes.map(pothole => {
       // if this pothole has the same ID as the edited pothole
       if (id === pothole.id) {
@@ -148,7 +147,7 @@ function App(props) {
       />
     ));
 
-//FILTER BUTTONS
+  //FILTER BUTTONS
   const filterList = FILTER_NAMES.map((name) => (
     <FilterButton
       key={name}
@@ -174,8 +173,8 @@ function App(props) {
   return (
     <div className="todoapp stack-large">
       <div class="App-header">
-      <h1>Pothole Reporter</h1>
-      <Header />
+        <h1>Pothole Reporter</h1>
+        <Header />
       </div>
       <Form addPothole={addPothole} geoFindMe={geoFindMe} />
       <div className="filters btn-group stack-exception">
